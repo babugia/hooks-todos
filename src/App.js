@@ -38,7 +38,7 @@ export default function App() {
         className='border m-1 p-1'
         onClick={() => dispatch({ type: 'decrement' })}
       >
-        Decrement
+        Decrementt
       </button>
       <button
         className='border m-1 p-1'
