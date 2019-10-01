@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useReducer, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import TodosContext from './context';
+import todosReducer from './reducer';
 
-export const UserContext = React.createContext();
-const username = 'Babugia';
+import TodoList from './components/TodoList';
 
-ReactDOM.render(
-  <UserContext.Provider value={username}>
-    <App />
-  </UserContext.Provider>,
-  document.getElementById('root')
-);
+const App = () => {
+  const initialState = useContext(TodosContext);
+  const [state, dispatch] = useReducer(todosReducer, initialState);
+  return (
+    <TodosContext.Provider value={{ state, dispatch }}>
+      <TodoList />
+    </TodosContext.Provider>
+  );
+};
 
+ReactDOM.render(<App />, document.getElementById('root'));
+
+if (module.hot) {
+  module.hot.accept();
+}
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
