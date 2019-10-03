@@ -2,13 +2,19 @@ import uuidv4 from 'uuid/v4';
 
 export default function reducer(state, action) {
   const todo = action.payload;
+  const alreadyHasTodo = state.todos.find(t => t.text === todo);
+  const isAddable = todo && !alreadyHasTodo;
+
   switch (action.type) {
     case 'ADD_TODO':
+      if (!isAddable) return state;
+
       const newTodo = {
         id: uuidv4(),
-        text: action.payload,
+        text: todo,
         complete: false
       };
+
       const todos = [...state.todos, newTodo];
       return { ...state, todos };
     case 'SET_CURRENT_TODO':
@@ -19,6 +25,8 @@ export default function reducer(state, action) {
       );
       return { ...state, todos: toggledTodos };
     case 'UPDATE_TODO':
+      if (!isAddable) return state;
+
       const updatedTodo = { ...state.currentTodo, text: todo };
       const updatedIndex = state.todos.findIndex(t => t.id === updatedTodo.id);
       const updatedTodos = [
@@ -29,7 +37,9 @@ export default function reducer(state, action) {
       return { ...state, currentTodo: {}, todos: updatedTodos };
     case 'REMOVE_TODO':
       const filteredTodos = state.todos.filter(t => t.id !== todo.id);
-      return { ...state, todos: filteredTodos };
+      const currentTodo =
+        todo.id === state.currentTodo.id ? {} : state.currentTodo;
+      return { ...state, currentTodo, todos: filteredTodos };
     default:
       return state;
   }

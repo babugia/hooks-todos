@@ -9,9 +9,7 @@ export default function TodoForm() {
   } = useContext(TodosContext);
 
   useEffect(() => {
-    if (currentTodo.text) {
-      setTodo(currentTodo.text);
-    }
+    setTodo(currentTodo.text || '');
   }, [currentTodo.id]);
 
   const handleSubmit = event => {
