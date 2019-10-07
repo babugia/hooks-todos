@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import uuidv4 from 'uuid/v4';
 import TodosContext from '../context';
 
 export default function TodoForm() {
@@ -12,10 +14,18 @@ export default function TodoForm() {
     setTodo(currentTodo.text || '');
   }, [currentTodo]);
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
     const action = currentTodo.text ? 'UPDATE_TODO' : 'ADD_TODO';
-    dispatch({ type: action, payload: todo });
+    const response = await axios.post(
+      'https://hooks-api.babugia.now.sh/todos',
+      {
+        id: uuidv4(),
+        text: todo,
+        complete: false
+      }
+    );
+    dispatch({ type: action, payload: response.data });
     setTodo('');
   };
 

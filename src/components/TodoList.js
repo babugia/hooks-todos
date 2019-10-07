@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import TodosContext from '../context';
+import axios from 'axios';
 
 export default function TodoList() {
   const { state, dispatch } = useContext(TodosContext);
@@ -27,9 +28,12 @@ export default function TodoList() {
               {todo.text}
             </span>
             <button
-              onClick={() =>
-                dispatch({ type: 'SET_CURRENT_TODO', payload: todo })
-              }
+              onClick={async () => {
+                await axios.delete(
+                  `https://hooks-api.babugia.now.sh/todos/${todo.id}`
+                );
+                dispatch({ type: 'SET_CURRENT_TODO', payload: todo });
+              }}
             >
               <img
                 src='https://icon.now.sh/edit/0050c5'

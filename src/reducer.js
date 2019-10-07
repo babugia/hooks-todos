@@ -12,15 +12,9 @@ export default function reducer(state, action) {
         todos: action.payload
       };
     case 'ADD_TODO':
-      if (!isAddable) return state;
+      // if (!isAddable) return state;
 
-      const newTodo = {
-        id: uuidv4(),
-        text: todo,
-        complete: false
-      };
-
-      const todos = [...state.todos, newTodo];
+      const todos = [...state.todos, todo];
       return { ...state, todos };
     case 'SET_CURRENT_TODO':
       return { ...state, currentTodo: todo };
