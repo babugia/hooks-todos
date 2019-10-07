@@ -6,6 +6,11 @@ export default function reducer(state, action) {
   const isAddable = todo && !alreadyHasTodo;
 
   switch (action.type) {
+    case 'GET_TODOS':
+      return {
+        ...state,
+        todos: action.payload
+      };
     case 'ADD_TODO':
       if (!isAddable) return state;
 

@@ -10,7 +10,7 @@ export default function TodoForm() {
 
   useEffect(() => {
     setTodo(currentTodo.text || '');
-  }, [currentTodo.id]);
+  }, [currentTodo]);
 
   const handleSubmit = event => {
     event.preventDefault();
