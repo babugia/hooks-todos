@@ -14,12 +14,8 @@ export default function TodoForm() {
     setTodo(currentTodo.text || '');
   }, [currentTodo]);
 
-  const update = async () => {};
-
-  const handleSubmit = async event => {
-    event.preventDefault();
-    const action = currentTodo.text ? 'UPDATE_TODO' : 'ADD_TODO';
-    // FIXME: update don't working
+  const add = async () => {
+    const action = 'ADD_TODO';
     const response = await axios.post(
       'https://hooks-api.babugia.now.sh/todos',
       {
@@ -29,6 +25,22 @@ export default function TodoForm() {
       }
     );
     dispatch({ type: action, payload: response.data });
+  };
+
+  const update = async () => {
+    const action = 'UPDATE_TODO';
+    const response = await axios.patch(
+      `https://hooks-api.babugia.now.sh/todos/${currentTodo.id}`,
+      {
+        text: todo
+      }
+    );
+    dispatch({ type: action, payload: response.data });
+  };
+
+  const handleSubmit = async event => {
+    event.preventDefault();
+    currentTodo.text ? await update() : await add();
     setTodo('');
   };
 

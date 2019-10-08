@@ -22,9 +22,9 @@ export default function reducer(state, action) {
       const toggledTodos = state.todos.map(t => (t.id === todo.id ? todo : t));
       return { ...state, todos: toggledTodos };
     case 'UPDATE_TODO':
-      if (!isAddable) return state;
+      // if (!isAddable) return state;
 
-      const updatedTodo = { ...state.currentTodo, text: todo };
+      const updatedTodo = { ...todo };
       const updatedIndex = state.todos.findIndex(t => t.id === updatedTodo.id);
       const updatedTodos = [
         ...state.todos.slice(0, updatedIndex),
