@@ -19,9 +19,7 @@ export default function reducer(state, action) {
     case 'SET_CURRENT_TODO':
       return { ...state, currentTodo: todo };
     case 'TOGGLE_TODO':
-      const toggledTodos = state.todos.map(t =>
-        t.id === todo.id ? { ...action.payload, complete: !todo.complete } : t
-      );
+      const toggledTodos = state.todos.map(t => (t.id === todo.id ? todo : t));
       return { ...state, todos: toggledTodos };
     case 'UPDATE_TODO':
       if (!isAddable) return state;

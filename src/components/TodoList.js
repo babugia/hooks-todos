@@ -21,17 +21,20 @@ export default function TodoList() {
             <span
               className={`flex-1 ml-12
             cursor-pointer ${todo.complete && 'line-through text-gray-900'}`}
-              onDoubleClick={() =>
-                dispatch({ type: 'TOGGLE_TODO', payload: todo })
-              }
+              onDoubleClick={async () => {
+                const response = await axios.patch(
+                  `https://hooks-api.babugia.now.sh/todos/${todo.id}`,
+                  {
+                    complete: !todo.complete
+                  }
+                );
+                dispatch({ type: 'TOGGLE_TODO', payload: response.data });
+              }}
             >
               {todo.text}
             </span>
             <button
               onClick={async () => {
-                await axios.delete(
-                  `https://hooks-api.babugia.now.sh/todos/${todo.id}`
-                );
                 dispatch({ type: 'SET_CURRENT_TODO', payload: todo });
               }}
             >
@@ -42,7 +45,12 @@ export default function TodoList() {
               />
             </button>
             <button
-              onClick={() => dispatch({ type: 'REMOVE_TODO', payload: todo })}
+              onClick={async () => {
+                await axios.delete(
+                  `https://hooks-api.babugia.now.sh/todos/${todo.id}`
+                );
+                dispatch({ type: 'REMOVE_TODO', payload: todo });
+              }}
             >
               <img
                 src='https://icon.now.sh/delete/8b0000'

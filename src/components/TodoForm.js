@@ -14,9 +14,12 @@ export default function TodoForm() {
     setTodo(currentTodo.text || '');
   }, [currentTodo]);
 
+  const update = async () => {};
+
   const handleSubmit = async event => {
     event.preventDefault();
     const action = currentTodo.text ? 'UPDATE_TODO' : 'ADD_TODO';
+    // FIXME: update don't working
     const response = await axios.post(
       'https://hooks-api.babugia.now.sh/todos',
       {
